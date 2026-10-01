@@ -6,6 +6,22 @@ It includes an integrated **Google MobileNet Neural Network Deep Learning Model*
 
 ---
 
+## 📸 Application User Interface & Dashboard Screenshots
+
+### 1. Vision AI & Media Upload Dashboard
+![Vision AI & Upload Dashboard](docs/images/upload_vision.png)
+
+### 2. Amazon S3 Object Storage Browser
+![Amazon S3 Object Browser](docs/images/s3_browser.png)
+
+### 3. Amazon DynamoDB Table Inspector & JSON Attribute Viewer
+![Amazon DynamoDB Table Inspector](docs/images/dynamo_inspector.png)
+
+### 4. AWS Environment Infrastructure Telemetry & IaC Deployment Guides
+![AWS Environment & Infrastructure Status](docs/images/aws_config.png)
+
+---
+
 ## 🏛️ System Architecture
 
 ```mermaid
@@ -47,6 +63,12 @@ graph TD
 
 ```
 CloudVisionHub/
+├── docs/
+│   └── images/                # Dashboard Screenshots & UI Preview Assets
+│       ├── upload_vision.png
+│       ├── s3_browser.png
+│       ├── dynamo_inspector.png
+│       └── aws_config.png
 ├── aws/
 │   ├── template.yaml          # AWS SAM CloudFormation Infrastructure Stack
 │   ├── terraform/main.tf      # Terraform Script for S3, DynamoDB & IAM
