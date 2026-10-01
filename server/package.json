@@ -1,0 +1,25 @@
+{
+  "name": "cloudvision-server",
+  "version": "1.0.0",
+  "description": "AWS Vision & Document Intelligence Backend API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.500.0",
+    "@aws-sdk/client-rekognition": "^3.500.0",
+    "@aws-sdk/client-s3": "^3.500.0",
+    "@aws-sdk/lib-dynamodb": "^3.500.0",
+    "@aws-sdk/s3-request-presigner": "^3.500.0",
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs-backend-cpu": "^4.22.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jpeg-js": "^0.4.4",
+    "multer": "^1.4.5-lts.1",
+    "pngjs": "^7.0.0"
+  }
+}

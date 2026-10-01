@@ -1,0 +1,41 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "S3ObjectStorageAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::cloudvision-storage-*",
+        "arn:aws:s3:::cloudvision-storage-*/*"
+      ]
+    },
+    {
+      "Sid": "DynamoDBDatabaseAccess",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:PutItem",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:Query",
+        "dynamodb:DeleteItem"
+      ],
+      "Resource": "arn:aws:dynamodb:*:*:table/CloudVisionRecords*"
+    },
+    {
+      "Sid": "RekognitionAIAccess",
+      "Effect": "Allow",
+      "Action": [
+        "rekognition:DetectLabels",
+        "rekognition:DetectText",
+        "rekognition:DetectFaces"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

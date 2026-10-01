@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: CloudVision Hub - AWS Infrastructure Stack (S3, DynamoDB, Rekognition, Lambda)
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 256
+    Runtime: nodejs20.x
+    Environment:
+      Variables:
+        S3_BUCKET_NAME: !Ref CloudVisionS3Bucket
+        DYNAMODB_TABLE_NAME: !Ref CloudVisionDynamoTable
+
+Resources:
+  # ------------------------------------------------------------
+  # Amazon S3 Bucket for Media & Document Storage
+  # ------------------------------------------------------------
+  CloudVisionS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'cloudvision-storage-${AWS::AccountId}-${AWS::Region}'
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: ['*']
+            AllowedMethods: [GET, PUT, POST, DELETE, HEAD]
+            AllowedOrigins: ['*']
+            MaxAge: 3000
+
+  # ------------------------------------------------------------
+  # Amazon DynamoDB Table for Metadata & Vision Labels Index
+  # ------------------------------------------------------------
+  CloudVisionDynamoTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: CloudVisionRecords
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: category
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: CategoryIndex
+          KeySchema:
+            - AttributeName: category
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  # ------------------------------------------------------------
+  # AWS Lambda Function for Automated S3 Vision Trigger
+  # ------------------------------------------------------------
+  VisionProcessingLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../server/
+      Handler: src/lambda.handler
+      Description: Auto-invoked on S3 upload to analyze image with AWS Rekognition and write to DynamoDB
+      Policies:
+        - AmazonS3FullAccess
+        - AmazonDynamoDBFullAccess
+        - AmazonRekognitionFullAccess
+      Events:
+        FileUploadEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref CloudVisionS3Bucket
+            Events: s3:ObjectCreated:*
+
+Outputs:
+  S3BucketName:
+    Description: Created Amazon S3 Bucket Name
+    Value: !Ref CloudVisionS3Bucket
+  DynamoDBTableName:
+    Description: Created Amazon DynamoDB Table Name
+    Value: !Ref CloudVisionDynamoTable
+  LambdaFunctionArn:
+    Description: Vision Processing Lambda ARN
+    Value: !GetAtt VisionProcessingLambda.Arn
