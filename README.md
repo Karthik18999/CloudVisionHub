@@ -10,11 +10,11 @@ It includes an integrated **Google MobileNet Neural Network Deep Learning Model*
 
 ```mermaid
 graph TD
-    A[React Dashboard Client - Port 3000] -->|REST API| B[Express API Server - Port 5000]
-    B -->|Neural Engine| C[MobileNet Deep Learning Classifier]
-    B -->|@aws-sdk/client-s3| D[Amazon S3 - Object Storage Bucket]
-    B -->|@aws-sdk/client-rekognition| E[AWS Rekognition - Vision & OCR]
-    B -->|@aws-sdk/lib-dynamodb| F[Amazon DynamoDB - NoSQL Table]
+    A["React Dashboard Client (Port 3000)"] -->|"REST API"| B["Express API Server (Port 5000)"]
+    B -->|"Neural Engine"| C["MobileNet Deep Learning Classifier"]
+    B -->|"@aws-sdk/client-s3"| D["Amazon S3 - Object Storage Bucket"]
+    B -->|"@aws-sdk/client-rekognition"| E["AWS Rekognition - Vision & OCR"]
+    B -->|"@aws-sdk/lib-dynamodb"| F["Amazon DynamoDB - NoSQL Table"]
 ```
 
 ---
@@ -46,7 +46,7 @@ graph TD
 ## 📁 Repository Directory Layout
 
 ```
-aws-vision-hub/
+CloudVisionHub/
 ├── aws/
 │   ├── template.yaml          # AWS SAM CloudFormation Infrastructure Stack
 │   ├── terraform/main.tf      # Terraform Script for S3, DynamoDB & IAM
